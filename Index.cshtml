@@ -1,0 +1,122 @@
+﻿
+@model Repository.Models.PagingModel<Repository.Models.ContactModel>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+
+@{
+    ViewData["Title"] = "Index";
+
+
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<style>
+    /* pagination */
+    .pagination > li.disabled {
+        opacity: .5;
+        filter: alpha(opacity=50);
+    }
+
+    .pagination > li {
+        margin: 0 4px;
+        display: inline-block;
+    }
+
+    .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+        color: #fff;
+        background-color: #f54b5b;
+        border-color: #fff;
+        cursor: default;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+        text-align: center;
+        font-size: 18px;
+        z-index: 1;
+        position: relative;
+        background-color: #2196f3;
+        color: #fff;
+        border: 1px solid #fff;
+        cursor: pointer;
+        display: inline-block;
+    }
+</style>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Contact ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Mobile No
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ContactID }) |
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ContactID }, new { onclick = "return confirm('Are you sure to delete')" })
+                </td>
+            </tr>
+
+        }
+        <tr>
+            <td colspan="5">
+                @Html.PagedListPager((IPagedList)Model.Data, page => Url.Action("Index", new
+           {
+               page = page,
+               pageSize = Model.PageSize
+           }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+
+            </td>
+        </tr>
+    </tbody>
+</table>
